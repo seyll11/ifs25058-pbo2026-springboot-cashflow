@@ -10,7 +10,9 @@ spring:
       enabled: true
 
 server:
-  port: ${APP_PORT:8080}
+  # Hosting (Render/Railway/Koyeb) memberi port lewat env PORT
+  port: ${PORT:${APP_PORT:8080}}
+  address: 0.0.0.0
 
 vaadin:
   launch-browser: false
