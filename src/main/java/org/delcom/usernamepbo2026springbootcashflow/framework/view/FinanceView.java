@@ -13,6 +13,7 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -57,6 +58,7 @@ public class FinanceView extends VerticalLayout {
         this.presenter = presenter;
 
         setSizeFull();
+        getElement().setAttribute("role", "main");
         setPadding(true);
         setSpacing(true);
 
@@ -70,23 +72,23 @@ public class FinanceView extends VerticalLayout {
 
     private HorizontalLayout buildSummary() {
         HorizontalLayout row = new HorizontalLayout(
-                card("Total Transaksi", countValue, "#E0E7FF", "#4338CA"),
-                card("Total Pemasukan", incomeValue, "#DCFCE7", "#15803D"),
-                card("Total Pengeluaran", expenseValue, "#FEE2E2", "#B91C1C"),
-                card("Saldo", balanceValue, "#FEF9C3", "#A16207")
+                card("Total Transaksi", countValue, "#E0E7FF", "#3730A3"),
+                card("Total Pemasukan", incomeValue, "#DCFCE7", "#166534"),
+                card("Total Pengeluaran", expenseValue, "#FEE2E2", "#991B1B"),
+                card("Saldo", balanceValue, "#FEF9C3", "#854D0E")
         );
         row.setWidthFull();
-        row.getStyle().set("align-items", "stretch");
+        row.getStyle().set("align-items", "stretch").set("flex-wrap", "wrap");
         return row;
     }
 
     private Div card(String label, Span value, String background, String accent) {
         Span caption = new Span(label);
-        caption.getStyle().set("display", "block").set("font-size", "0.85rem").set("color", accent);
+        caption.getStyle().set("display", "block").set("font-size", "0.9rem").set("color", accent);
         value.getStyle().set("display", "block").set("font-size", "1.5rem")
                 .set("font-weight", "700").set("color", accent);
         Div box = new Div(caption, value);
-        box.getStyle().set("flex", "1").set("min-width", "0").set("background", background)
+        box.getStyle().set("flex", "1 1 160px").set("min-width", "0").set("background", background)
                 .set("border-left", "6px solid " + accent).set("border-radius", "10px")
                 .set("padding", "0.9rem 1rem");
         return box;
@@ -121,6 +123,8 @@ public class FinanceView extends VerticalLayout {
                 .setAutoWidth(true).setFlexGrow(0).setSortable(false);
         grid.setEmptyStateComponent(emptyState);
         grid.setSizeFull();
+        grid.getElement().setAttribute("aria-label", "Daftar transaksi");
+        grid.setMinHeight("300px");
     }
 
     private Span typeBadge(Transaction t) {
@@ -138,10 +142,12 @@ public class FinanceView extends VerticalLayout {
     // ---------- toolbar ----------
 
     private void configureToolbarFields() {
+        searchField.setLabel("Cari keterangan");
         searchField.setPlaceholder("Cari keterangan...");
         searchField.setPrefixComponent(VaadinIcon.SEARCH.create());
         searchField.setClearButtonVisible(true);
 
+        sortBox.setLabel("Urutkan");
         sortBox.setPlaceholder("Urutkan...");
         sortBox.setItems(SortOption.values());
         sortBox.setItemLabelGenerator(presenter::formatSortOption);
@@ -163,6 +169,8 @@ public class FinanceView extends VerticalLayout {
         HorizontalLayout bar = new HorizontalLayout(searchField, search, sortBox, reload, income, expense);
         bar.setWidthFull();
         bar.setFlexGrow(1, searchField);
+        bar.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.END);
+        bar.getStyle().set("flex-wrap", "wrap");
         return bar;
     }
 

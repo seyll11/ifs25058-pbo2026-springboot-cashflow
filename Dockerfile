@@ -10,7 +10,7 @@ RUN mvn -B clean package -Pproduction -DskipTests
 FROM eclipse-temurin:25-jre
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-ENV JAVA_TOOL_OPTIONS="-Xmx400m" \
+ENV JAVA_TOOL_OPTIONS="-Xms128m -Xmx300m -XX:+UseSerialGC -XX:TieredStopAtLevel=1 -Xss512k -XX:MaxMetaspaceSize=128m" \
     VAADIN_PRODUCTIONMODE=true \
     SPRING_DEVTOOLS_RESTART_ENABLED=false \
     VAADIN_LAUNCHBROWSER=false
