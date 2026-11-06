@@ -1,7 +1,7 @@
 package org.delcom.usernamepbo2026springbootcashflow;
 
 import com.vaadin.flow.component.page.AppShellConfigurator;
-import com.vaadin.flow.component.page.AppShellSettings;
+import com.vaadin.flow.server.AppShellSettings;
 
 /** Konfigurasi halaman global (meta tag untuk SEO). */
 public class AppShell implements AppShellConfigurator {
