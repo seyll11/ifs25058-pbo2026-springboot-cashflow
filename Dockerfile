@@ -10,6 +10,9 @@ RUN mvn -B clean package -Pproduction -DskipTests
 FROM eclipse-temurin:25-jre
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-ENV JAVA_TOOL_OPTIONS="-Xmx400m"
+ENV JAVA_TOOL_OPTIONS="-Xmx400m" \
+    VAADIN_PRODUCTIONMODE=true \
+    SPRING_DEVTOOLS_RESTART_ENABLED=false \
+    VAADIN_LAUNCHBROWSER=false
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app/app.jar"]

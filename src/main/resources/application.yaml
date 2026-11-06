@@ -13,6 +13,8 @@ server:
   # Hosting (Render/Railway/Koyeb) memberi port lewat env PORT
   port: ${PORT:${APP_PORT:8080}}
   address: 0.0.0.0
+  # Di belakang proxy hosting (HTTPS), pakai header X-Forwarded-* agar tidak terjadi redirect http/https
+  forward-headers-strategy: framework
 
 vaadin:
   launch-browser: false
